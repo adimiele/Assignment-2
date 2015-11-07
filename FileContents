@@ -1,0 +1,38 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+public class FileContents {
+public static void main(String args[]){
+
+	ArrayList<String> lineArray=new ArrayList<String>();
+
+String lineContents=null;
+int counter=0;
+try{
+       BufferedReader br=new BufferedReader(new FileReader("Initial_Book_Info.txt"));
+       while((lineContents=br.readLine())!=null){
+       lineArray.add(lineContents);
+       counter++;
+       
+       }
+}
+catch(FileNotFoundException fne){
+fne.printStackTrace();
+}
+catch(IOException io){
+io.printStackTrace();
+}
+for (int i=0;i<lineArray.size();i++){
+System.out.println(lineArray.get(i));
+}
+
+}
+
+
+
+
+
+}
