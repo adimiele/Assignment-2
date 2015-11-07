@@ -1,0 +1,32 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+public class DuplicateNumber {
+
+	public static void main(String[] args) {
+		
+		
+		ArrayList<String>names=new ArrayList<>();
+		
+		names.add("hello");
+		names.add("heallo");
+		names.add("heallo");
+		names.add("he");
+		names.add("he");
+		
+		Set<String> s=new HashSet<>();
+		for (String x:names)
+		{if(s.add(x)==false)
+			System.out.println(x);
+		}
+		
+		
+		
+		
+		
+		
+		
+	}
+
+}
