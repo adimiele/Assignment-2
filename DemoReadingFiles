@@ -16,20 +16,7 @@ public class DemoReadingFiles {
 			System.out.println(words[i]);
 		}
 		
-		
-		
-		
-		
-		
-		
-		
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -84,10 +71,6 @@ catch (FileNotFoundException e)
 	}
 
 return null;
-
-
-
-
 }
 
 
