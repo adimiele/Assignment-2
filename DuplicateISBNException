@@ -1,0 +1,2 @@
+
+public class DuplicateISBNException extends Exception{}
