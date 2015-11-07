@@ -1,0 +1,214 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+
+
+
+public class BookInventory1{
+	
+	
+	public static void fileCopy(BufferedReader inFileStreamName, PrintWriter outFileStreamName)
+			throws IOException		
+	{
+		// Read line by line from input file and copy it to output file
+		String s;
+		
+		s = inFileStreamName.readLine();
+		while(s != null) // The readLine() method returns null when it is EOF
+		{
+			outFileStreamName.println(s);
+			s = inFileStreamName.readLine();		
+		}
+		// Must close the files to flush the buffers
+		inFileStreamName.close();
+		outFileStreamName.close();
+	}
+
+	// A method that takes a stream file name and display the contents of this file 
+	public static void displayFileContents(BufferedReader inFileStreamName) throws IOException
+	{
+		// Read line by line from input file and display it (on the monitor)
+		// The method actually uses the read() method (instead of readLine(), which we 
+		// could have surely used here without a problem). The read() method reads 
+		// character by character, but each character is read as type int, so casting is needed
+		// so that we can display character and not their integer values 
+
+		int x;
+		
+		x = inFileStreamName.read();
+		while(x != -1) 
+		{
+			System.out.print((char)x);		// MUST CAST; otherwise all what is read will be shown as integers
+			x = inFileStreamName.read();		
+		}
+		// Must close the file 
+		inFileStreamName.close();
+	}
+	
+
+	
+					     
+	
+	
+	public static void main(String[] args) 
+	{
+		
+		String  s1;
+		PrintWriter pw = null;		
+		Scanner kb = new Scanner(System.in);
+		Scanner sc = null;
+		
+		BufferedReader br = null;	// Create a BufferedReader object to read from input files 		
+
+
+		System.out.println("Please enter the name of Output,which will have corrected Information: " );
+		
+		s1 = kb.next();
+		
+		// Make sure that the output file does not exist; otherwise the copy operation would 
+		// destroy it
+		
+			try {
+				sc = new Scanner(new FileInputStream(s1));
+			} catch (FileNotFoundException e1) {
+				
+				System.out.println("Problem opening files. Cannot proceed to copy.");
+				System.out.println("Program will terminate.");
+				System.exit(0);
+			}				     
+			
+			//Claudiu-loop here if needed for something else
+		File f = new File(s1);		
+		while(f.exists())
+		{
+			System.out.println("Error: There is an existing file called: " + s1 + ".");
+			System.out.println("That file already has a size of " + f.length() + " bytes.");
+			System.out.print("\nPlease enter another file name to copy to: ");
+			s1 = kb.next();
+			f = new File(s1);
+		}
+		
+		// Now the file names are okay, continue the program
+		try
+		{
+			System.out.println("Attempting to open and display the contents of file: " + sc + ".");
+			br = new BufferedReader(new FileReader("Initial_Book_Info.txt"));		
+		}
+		catch(FileNotFoundException e) 
+		{							   
+			System.out.println("Problem opening files. Cannot proceed to copy.");
+			System.out.println("Program will terminate.");
+			System.exit(0);			   
+		}
+		
+		
+		// Now try to display the contents of the original file
+		System.out.println("\nHere are the contents of file " + sc + " BEFORE performing the coping operation:");
+		System.out.println("===================================================================================");
+		
+		try
+		{
+			displayFileContents(br);
+		}
+		catch(IOException e)
+		{
+			System.out.println("Error: An error has occurred while reading from the " + sc + " file. ");
+			System.out.println("Program will terminate.");
+			System.exit(0);		
+		}
+		
+		
+		// See if we can establish the two streams to perform the copying operation
+		try
+		{
+			br = new BufferedReader(new FileReader("Initial_Book_Info.txt"));		
+			pw = new PrintWriter(new FileOutputStream(s1));	  
+			
+			// At this moment, both streams exist, so call the method to copy the file
+			// However, possible IOException may still occur while reading the input file
+			fileCopy(br, pw);
+			
+		}
+		catch(FileNotFoundException e) 
+		{							   
+			System.out.println("Problem opening files. Cannot proceed to copy.");
+			System.out.println("Program will terminate.");
+			System.exit(0);			   
+		}
+		catch(IOException e)
+		{
+			System.out.println("Error: An error has occurred while reading from the " + sc + " file. ");
+			System.out.println("Program will terminate.");
+			System.exit(0);		
+		}
+
+		System.out.println("File has been copied ");
+		
+		// At that moment the files have been copied and we wish to display their contents
+		// on the screen; however by now they have already been closed, so we must re-open them
+		
+		// Try to re-open the original file
+		try
+		{
+			br = new BufferedReader(new FileReader("Initial_Book_Info.txt"));		
+		}
+		catch(FileNotFoundException e) 
+		{							   
+			System.out.println("Problem opening files. Cannot proceed to copy.");
+			System.out.println("Program will terminate.");
+			System.exit(0);			   
+		}
+		
+		
+		// Now try to display the contents of the original file
+		System.out.println("\nHere are the contents of file " + sc + " AFTER copying operation:");
+		System.out.println("==================================================================");
+		
+		try
+		{
+			displayFileContents(br);
+		}
+		catch(IOException e)
+		{
+			System.out.println("Error: An error has occurred while reading from the " + sc + " file. ");
+			System.out.println("Program will terminate.");
+			System.exit(0);		
+		}
+		
+		// Try to re-open the copied file
+		try
+		{
+			br = new BufferedReader(new FileReader(s1));	// We can surely use the same stream since the file  	
+		}													// that it was referencing is already closed by now
+		catch(FileNotFoundException e) 
+		{							   
+			System.out.println("Problem opening files. Cannot proceed to copy.");
+			System.out.println("Program will terminate.");
+			System.exit(0);			   
+		}
+		
+		// Now try to display the contents of the copied file
+		System.out.println("\nHere are the contents of file " + s1 + ":");
+		System.out.println("======================================================");
+		
+		try
+		{
+			displayFileContents(br);
+		}
+		catch(IOException e)
+		{
+			System.out.println("Error: An error has occurred while reading from the " + s1 + " file. ");
+			System.out.println("Program will terminate.");
+			System.exit(0);		
+		}
+		
+
+	}
+}
