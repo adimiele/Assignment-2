@@ -1,37 +1,33 @@
-import java.io.FileInputStream;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.*;
-public class FileContents {
-public static void main(String args[]){
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+ public class FileContents {
+ public static void main(String args[]){
+ 
+	ArrayList<String> lineArray=new ArrayList<String>();
 
-	String s;
-	Scanner kb = new Scanner(System.in);
-	Scanner sc = null;		// A scanner object 
-	long id;
-	int i = 0;
-try
-{
-	sc = new Scanner(new FileInputStream("Initial_Book_Info.txt"));				     
+String lineContents=null;
+int counter=0;
+try{
+       BufferedReader br=new BufferedReader(new FileReader("Initial_Book_Info.txt"));
+       while((lineContents=br.readLine())!=null){
+       lineArray.add(lineContents.substring(0, Math.min(lineContents.length(), 10)));
+       counter++;
+       
+       }}
+
+catch(FileNotFoundException fne){
+fne.printStackTrace();
 }
-catch(FileNotFoundException e) 
-{							   
-	System.out.println("Could not open input file for reading."
-			+ " Please check if file exists.");	
-	System.out.print("Program will terminate.");
-	System.exit(0);			   
+catch(IOException io){
+io.printStackTrace();}
+
+String[] isbnArr= new String[counter];
+for (int i=0;i<lineArray.size();i++){
+	isbnArr[i]=(lineArray.get(i));
 }
-// The format of the file is assumed to be known. 
-
-List<Long> values = new ArrayList<Long>();
-while(sc.hasNextLine()&&sc.hasNextLong())
-{
-	id = sc.nextLong();
-	s = sc.nextLine();		// just read the rest of the line so we can go to the next line
-	values.add(id);
-	i++;
-
-}
-
-for (int j=0;j<values.size();j++)
-	System.out.println(values.get(j));
-}}
+for (int i=0;i<lineArray.size();i++)
+	System.out.println(isbnArr[i]);}}
