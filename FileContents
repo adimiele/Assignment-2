@@ -4,11 +4,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Scanner;
  public class FileContents {
  public static void main(String args[]){
  
 	ArrayList<String> lineArray=new ArrayList<String>();
-
 String lineContents=null;
 int counter=0;
 try{
@@ -18,16 +18,28 @@ try{
        counter++;
        
        }}
-
 catch(FileNotFoundException fne){
 fne.printStackTrace();
 }
 catch(IOException io){
 io.printStackTrace();}
-
 String[] isbnArr= new String[counter];
 for (int i=0;i<lineArray.size();i++){
 	isbnArr[i]=(lineArray.get(i));
 }
 for (int i=0;i<lineArray.size();i++)
-	System.out.println(isbnArr[i]);}}
+	System.out.println(isbnArr[i]);
+for(int l = 0; l<lineArray.size();l++){
+	for(int m = l+1; m<lineArray.size();m++){
+		boolean d = isbnArr[l].equals(isbnArr[m]);
+		if(d){
+			System.out.println("Duplicates found in"+l+"and in"+m+"");
+			Scanner input = new Scanner(System.in);
+			String f;
+			System.out.println("Enter a new ISBN for the " +m+ "th ISBN");
+			f = input.next();
+			isbnArr[m]= f;
+			
+		}
+ 
+ }}}}
